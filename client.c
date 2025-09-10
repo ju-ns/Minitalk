@@ -13,27 +13,42 @@
 #include "../includes/minitalk.h"
 #include "../libft/libft.h"
 
+static void free_split(char **arr)
+{
+	int i;
+
+	i = 0;
+	while(arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
 int	main(int argc, char **argv)
 {
 	int	server_pid;
-	int	i;
 
 	if (argc != 3)
-	{
-		error_exit("Uso: ./client <PID><menssagem>\n");
-		return (1);
-	}
+		return(error_exit("Uso: ./client <PID><menssagem>\n"), 1);
 	server_pid = ft_atoi(argv[1]);
 	if (server_pid <= 0)
 	{
 		error_exit("PID inválido\n");
 		return (1);
 	}
+	char *with_sep;
+	char **chunks;
+
+	with_sep = insert_separators(argv[2]);
+	chunks = ft_split(with_sep, '|');
+	int i;
+
 	i = 0;
-	while (argv[2][i])
-	{
-		send_char(server_pid, argv[2][i]);
-		i++;
-	}
+	while(chunks[i])
+		send_string(server_pid, chunks[i++]);
 	send_char(server_pid, '\0');
+	free(with_sep);
+	free_split(chunks);
 }

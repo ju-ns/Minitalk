@@ -1,27 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jnogueir <jnogueir@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/05 13:37:44 by jnogueir          #+#    #+#             */
-/*   Updated: 2025/09/05 13:37:51 by jnogueir         ###   ########.fr       */
+/*   Created: 2025/09/10 00:28:55 by marvin            #+#    #+#             */
+/*   Updated: 2025/09/10 00:28:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#	ifndef MINITALK_H
-# define MINITALK_H
+#	ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
 
 # include <signal.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 
-void	send_char(int pid, char c);
+#define BUFFER_SIZE 1024
 void	error_exit(char *msg);
-void send_string(pid_t pid, const char *str);
-char *insert_separators(const char *str);
+void free_split(char **arr)
 
-
+typedef struct s_server_state
+{
+    unsigned char c;       // caractere atual
+    int bit;               // bit atual
+    char buffer[BUFFER_SIZE]; // buffer acumulado
+    int idx;               // posição atual do buffer
+} t_server_state;
 #endif

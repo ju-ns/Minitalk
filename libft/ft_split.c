@@ -52,6 +52,15 @@ static	char	*extract_next_word(const char *s, char c, int *index)
 	return (NULL);
 }
 
+void free_split_partial(char **arr, int filled)
+{
+    if (!arr)
+        return;
+    for (int i = 0; i < filled; i++)
+        free(arr[i]);
+    free(arr);
+}
+
 char	**ft_split(const char *s, char c)
 {
 	char	**result;
@@ -68,7 +77,15 @@ char	**ft_split(const char *s, char c)
 	end = 0;
 	i = 0;
 	while (i < words)
-		result[i++] = extract_next_word(s, c, &end);
+	{
+		result[i] = extract_next_word(s, c, &end);
+		if(!result[i])
+		{
+			free_split_partial(result,  i);
+			return (NULL);
+		}
+		i++;
+	}
 	result[i] = NULL;
 	return (result);
 }

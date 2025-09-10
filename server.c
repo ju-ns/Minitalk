@@ -10,25 +10,53 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
-#include "../libft/libft.h"
+#include "minitalk.h"
+#include "libft.h"
 
-static void	handle_signal(int sig, siginfo_t *info, void *context)
+#define BUFFER_SIZE 1024
+
+static void process_char(unsigned char c, char *buffer, int *idx)
 {
-	static int	bit = 0;
-	static char	c = 0;
+	if(c == '\0')
+	{
+		buffer[*idx] = '\0';
+		ft_putstr_fd(buffer, 1);
+		ft_putchar_fd('\n', 1);
+		*idx = 0;
+	}
+	else if (c == 4)
+	{
+		ft_putstr_fd("Encerrando servidor ...\n", 1);
+		exit(0);
+	}
+	else
+	{
+		if(*idx < BUFFER_SIZE -  1)
+			buffer[(*idx)++] = c;
+		else
+		{
+			buffer[*idx] = '\0';
+			ft_putstr_fd(buffer, 1);
+			*idx = 0;
+			buffer[(*idx)++] = c;
+		}
+	}
+}
 
-	(void)info;
-	(void)context;
-	if (sig == SIGUSR2)
+static void handle_signal(int sig, siginfo_t *info, void *context)
+{
+	static int bit = 0;
+	static unsigned char c = 0;
+	static char buffer[BUFFER_SIZE];
+	static int idx = 0;
+	(void) info;
+	(void) context;
+	if(sig == SIGUSR2) 
 		c |= (1 << bit);
 	bit++;
-	if (bit == 8)
+	if(bit == 8)
 	{
-		if (c == '\0')
-			ft_putchar_fd('\n', 1);
-		else
-			ft_putchar_fd(c, 1);
+		process_char(c, buffer, &idx);
 		bit = 0;
 		c = 0;
 	}
