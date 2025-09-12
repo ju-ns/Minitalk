@@ -13,7 +13,6 @@
 #include "minitalk.h"
 #include "libft.h"
 
-#define SIZE 50
 
 void	error_exit(char *msg)
 {
@@ -21,7 +20,7 @@ void	error_exit(char *msg)
 	exit(1);
 }
 
-void	send_char(pid_t pid, char c)
+void	send_char(int pid, char c)
 {
 	int	bit;
 
@@ -30,12 +29,12 @@ void	send_char(pid_t pid, char c)
 	{
 		if ((c >> bit) & 1)
 		{
-			if (kill(pid, SIGUSR1) == -1)
+			if (kill(pid, SIGUSR2) == -1)
 				error_exit("Error: failed to send SIGURSR2\n");
 		}
 		else
 		{
-			if (kill(pid, SIGUSR2) == -1)
+			if (kill(pid, SIGUSR1) == -1)
 				error_exit("Error: failed to send SIGURSR1\n");
 		}
 		bit++;
@@ -43,7 +42,7 @@ void	send_char(pid_t pid, char c)
 	}
 }
 
-void send_string(pid_t pid, const char *str)
+void send_string(int pid, const char *str)
 {
 	while(*str)
 	{
@@ -67,6 +66,7 @@ char *insert_separators(const char *str)
 	size_t count;
 	i = 0;
 	j = 0;
+	count = 0;
 	while(i < len)
 	{
 		res[j++] = str[i++];

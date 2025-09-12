@@ -13,8 +13,6 @@
 #include "minitalk.h"
 #include "libft.h"
 
-#define BUFFER_SIZE 1024
-
 static void process_char(unsigned char c, char *buffer, int *idx)
 {
 	if(c == '\0')
@@ -24,7 +22,7 @@ static void process_char(unsigned char c, char *buffer, int *idx)
 		ft_putchar_fd('\n', 1);
 		*idx = 0;
 	}
-	else if (c == 4)
+	else if (c == 4) //verificar
 	{
 		ft_putstr_fd("Encerrando servidor ...\n", 1);
 		exit(0);

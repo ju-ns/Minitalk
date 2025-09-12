@@ -19,14 +19,17 @@
 # include <stdio.h>
 
 #define BUFFER_SIZE 1024
-void	error_exit(char *msg);
-void free_split(char **arr)
+#define CHUNK_SIZE 1024
 
-typedef struct s_server_state
+void	error_exit(char *msg);
+void free_split(char **arr);
+
+typedef struct s_state
 {
-    unsigned char c;       // caractere atual
-    int bit;               // bit atual
-    char buffer[BUFFER_SIZE]; // buffer acumulado
-    int idx;               // posição atual do buffer
-} t_server_state;
+	int     bit;
+	int     c;
+	pid_t   client_pid;
+}   t_state;
+
+
 #endif

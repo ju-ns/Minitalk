@@ -17,3 +17,15 @@ void	error_exit(char *msg)
 	ft_putstr_fd(msg, 2);
 	exit(1);
 }
+void free_split(char **arr)
+{
+    int i = 0;
+    if (!arr)
+        return;
+    while (arr[i])
+    {
+        free(arr[i]);
+        i++;
+    }
+    free(arr);
+}

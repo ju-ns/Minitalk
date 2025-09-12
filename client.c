@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minitalk.h"
-#include "../libft/libft.h"
+#include "minitalk.h"
+#include "libft.h"
 
 static void free_split(char **arr)
 {

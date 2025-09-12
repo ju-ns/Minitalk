@@ -17,10 +17,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+#define SIZE 50
+#define BUFFER_SIZE 1024
+
 
 void	send_char(int pid, char c);
 void	error_exit(char *msg);
-void send_string(pid_t pid, const char *str);
+void send_string(int pid, const char *str);
 char *insert_separators(const char *str);
 
 
